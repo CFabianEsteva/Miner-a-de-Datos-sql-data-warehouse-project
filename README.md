@@ -81,12 +81,14 @@ data-warehouse-project/
 ├── datasets/                           # Raw datasets used for the project (ERP and CRM data)
 │
 ├── docs/                               # Project documentation and architecture details
-│   ├── etl.drawio                      # Draw.io file shows all different techniquies and methods of ETL
-│   ├── data_architecture.drawio        # Draw.io file shows the project's architecture
+│   ├── requirements.md                 # Project requirements
+│   ├── ETL.png                         # Diagram of the ETL techniques and methods
+│   ├── data_architecture.png           # Diagram of the project's architecture
 │   ├── data_catalog.md                 # Catalog of datasets, including field descriptions and metadata
-│   ├── data_flow.drawio                # Draw.io file for the data flow diagram
-│   ├── data_models.drawio              # Draw.io file for data models (star schema)
-│   ├── naming-conventions.md           # Consistent naming guidelines for tables, columns, and files
+│   ├── data_flow.png                   # Data flow diagram
+│   ├── data_integration.png            # Diagram of how CRM and ERP tables relate
+│   ├── data_model.png                  # Data model (star schema)
+│   ├── naming_conventions.md           # Consistent naming guidelines for tables, columns, and files
 │
 ├── scripts/                            # SQL scripts for ETL and transformations
 │   ├── bronze/                         # Scripts for extracting and loading raw data
@@ -97,9 +99,22 @@ data-warehouse-project/
 │
 ├── README.md                           # Project overview and instructions
 ├── LICENSE                             # License information for the repository
-├── .gitignore                          # Files and directories to be ignored by Git
-└── requirements.txt                    # Dependencies and requirements for the project
+└── .gitignore                          # Files and directories to be ignored by Git
 ```
+
+---
+
+## ▶️ How to Run
+
+Run the scripts in SQL Server (SSMS) in this order:
+
+1. `scripts/init_database.sql` – creates the `DataWarehouse` database and the `bronze`, `silver`, `gold` schemas.
+2. `scripts/bronze/ddl_bronze.sql` – creates the bronze tables.
+3. `scripts/bronze/proc_load_bronze.sql`, then `EXEC bronze.load_bronze;` – loads the CSV files (adjust the file paths to your machine).
+4. `scripts/silver/ddl_silver.sql` – creates the silver tables.
+5. `scripts/silver/proc_load_silver.sql`, then `EXEC silver.load_silver;` – cleans and loads the silver layer.
+6. `scripts/gold/ddl_gold.sql` – creates the gold views (star schema).
+7. `tests/quality_checks_silver.sql` and `tests/quality_checks_gold.sql` – validate each layer (no rows expected unless noted).
 ---
 
 ## ☕ Stay Connected
